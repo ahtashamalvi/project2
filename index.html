@@ -4,53 +4,60 @@
 <script src="aframe-ar.js"></script>
 
 <script>
-  AFRAME.registerComponent("mylink", {
-    init: function() {
-    this.el.addEventListener("click", (e)=> {
-          window.location = this.data.href;
-    })
-    }
-  })
-</script>
+	  AFRAME.registerComponent('navigate-on-click', {
+	    schema: {
+	      url: {default: ''}
+	    },
+	    init: function () {
+	      var data = this.data;
+	      var el = this.el;
+	      el.addEventListener('click', function () {
+		window.open(data.url, '_blank');
+	      });
+	    }
+	  });        
+	</script>
 
-<body style='margin : 0px; overflow: hidden; font-family: Monospace;'><div style='position: fixed; top: 10px; width:100%; text-align: center; z-index: 1;'>
+<body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
+
+	<div style='position: fixed; top: 10px; width:100%; text-align: center; z-index: 1;'></div>
 	
-</div>
-	<a-scene embedded arjs='sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;'>
-		<!-- handle unknown marker -->
-		<!-- <a-marker type='unknown'>
-			<a-box depth="1" height="1" width="1" position='0 0.5 0' material='opacity: 0.5; side:double; color:blue;'></a-box>
-		</a-marker> -->
-
+	<a-scene embedded arjs='trackingMethod: best;'>
 		
-		<!-- handle hiro marker -->
-		<a-marker preset='hiro'>
-			<a-image position="0 0 0" rotation="90 180 0" height="10" width="10"  src="https://raw.githubusercontent.com/ahtashamalvi/project1/master/files/macbook.png"></a-image>
-   
-		</a-marker>
-
-
+		<a-assets>
+			<img id="github_icon" src="https://cdn3.iconfinder.com/data/icons/social-media-2169/24/social_media_social_media_logo_github-512.png">
+			<img id="insta_icon" src="https://cdn3.iconfinder.com/data/icons/social-media-2169/24/social_media_social_media_logo_instagram-512.png">
+			<img id="linkedin_icon" src="https://cdn3.iconfinder.com/data/icons/social-media-2169/24/social_media_social_media_logo_likedin-512.png">
+			<img id="facebook_icon" src="https://cdn3.iconfinder.com/data/icons/social-media-2169/24/social_media_social_media_logo_facebook-512.png">
+		</a-assets>
 		
+		<a-plane rotation="-90 0 0" color="#3199f9" opacity="0.95" navigate-on-click="url: https://www.linkedin.com/in/utkarshgpta/">
+			<a-image src="https://s.gravatar.com/avatar/78156753f9d8feaebe2418780bdc262b?s=250"></a-image>
+			<a-text align="center" value="Hello, World!\nThis is a business card.\nMade by Utkarsh\nSociete Generale GSC\nFind below the links to various platforms.\P.S.Exhibits random behaviour when opening links." color="black" width="1" z-offset="0.1"></a-text>
+		</a-plane>
 		
-		<!-- handle kanji marker -->
-		<a-marker preset='kanji'>
-			<a-image height="5" width="5"  src="https://raw.githubusercontent.com/ahtashamalvi/project1/master/files/ku-logo.png"></a-image>
-		</a-marker>
+		<a-plane position="0 0 0.8" color="transparent" opacity="0" width="2" height="0.3" rotation="-90 0 0">
+			<a-box src="#github_icon" position="-0.4 0 0" depth="0.15" height="0.15" width="0.15" navigate-on-click="url: http://github.com">
+				<a-animation attribute="rotation" dur="7000" to="0 360 0" easing="linear" repeat="indefinite"></a-animation>
+			</a-box>
+			<a-box src="#insta_icon" position="0 0 0" depth="0.15" height="0.15" width="0.15" navigate-on-click="url: http://instagram.com">
+				<a-animation attribute="rotation" dur="7000" to="0 360 0" easing="linear" repeat="indefinite"></a-animation>
+			</a-box>
+			<a-box src="#linkedin_icon" position="0.4 0 0" depth="0.15" height="0.15" width="0.15" navigate-on-click="url: https://www.linkedin.com">
+				<a-animation attribute="rotation" dur="7000" to="0 360 0" easing="linear" repeat="indefinite"></a-animation>
+			</a-box>
+			<a-box src="#facebook_icon" position="0.8 0 0" depth="0.15" height="0.15" width="0.15" navigate-on-click="url: http://facebook.com">
+				<a-animation attribute="rotation" dur="7000" to="0 360 0" easing="linear" repeat="indefinite"></a-animation>
+			</a-box>
+		</a-plane>
 		
+		<a-plane position="1.2 0 0" width="1" height="1" rotation="-90 0 0" opcatity="1">
+			<a-image src="https://raw.githubusercontent.com/UtkarshGpta/ar-business-card/master/img/assets/nyancat.jpg"></a-image>
+		</a-plane>
 		
-		
-		
-		
-		<!-- handle pattern marker 1 -->
-		<a-marker preset='custom' type='pattern' url='https://raw.githubusercontent.com/ahtashamalvi/project1/master/files/pattern-marker2.patt'>
-			<a-image position="0 0 0" rotation="90 180 0" height="1" width="1"  src="https://raw.githubusercontent.com/ahtashamalvi/project1/master/files/big-sale.png"></a-image>
-		</a-marker>
-
-		
-		
-		
-		<!-- add a simple camera -->
-		<a-entity camera></a-entity>
+		<a-entity id="camera" cursor="rayOrigin: mouse"></a-entity>
+		<a-marker-camera preset='hiro'></a-marker-camera>
 	</a-scene>
+	
 </body>
 </html>
